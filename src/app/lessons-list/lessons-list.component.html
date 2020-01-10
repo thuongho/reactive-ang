@@ -2,8 +2,8 @@
   class="table lessons-list card card-strong">
   <!-- *ngIf="lessons; else  loadingLessons;"> -->
   <tbody>
-    <tr *ngFor="let lesson of lessons" (click)="select(lesson)">
-      <td class="lesson-title"> {{lesson.description}}</td>
+    <tr *ngFor="let lesson of lessons" (click)="toggleLessonViewed(lesson)">
+      <td class="lesson-title" [ngClass]="{'lesson-viewed': lesson.completed}"> {{lesson.description}}</td>
       <td class="duration">
         <i class="md-icon duration-icon">access_time</i>
         <span>{{lesson.duration}}</span>
