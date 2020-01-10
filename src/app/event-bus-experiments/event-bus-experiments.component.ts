@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // use globalEventBus as a communication mechanism
-import { globalEventBus } from './event-bus';
+import { globalEventBus, LESSONS_LIST_AVAILABLE } from './event-bus';
 import { testLessons } from '../shared/model/test-lessons';
 
 @Component({
@@ -17,7 +17,8 @@ export class EventBusExperimentsComponent implements OnInit {
     // broadcast testLessons to any observer that needs testLessons
     // EventBusExperimentsComponent doesn't have access to any other components
     // it's only using the globalEventBus to distribute data
-    globalEventBus.notifyObservers(testLessons);
+    // make a copy of testLessons
+    globalEventBus.notifyObservers(LESSONS_LIST_AVAILABLE, testLessons.slice(0));
   }
 
   addLesson(value) {}

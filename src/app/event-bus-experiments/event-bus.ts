@@ -3,34 +3,47 @@
 // yarn add @types/lodash - to get types
 import * as _ from 'lodash';
 
+export const LESSONS_LIST_AVAILABLE = 'NEW_LIST_AVAILABLE';
+
+export const ADD_NEW_LESSON = 'ADD_NEW_LESSON';
+
 export interface Observer {
   notify(data: any);
 }
 
 // private
 interface Subject {
-  registerObserver(obs: Observer);
-  unregisterObserver(obs: Observer);
-  notifyObservers(data: any);
+  registerObserver(eventType: string, obs: Observer);
+  unregisterObserver(eventType: string, obs: Observer);
+  notifyObservers(eventType: string, data: any);
 }
 
 class EventBus implements Subject {
-  private observers: Observer[] = [];
+  // convert to map
+  private observers: {[key: string]: Observer[]} = {};
 
   // similar to add eventlistener
-  registerObserver(obs: Observer) {
-    this.observers.push(obs);
+  registerObserver(eventType: string, obs: Observer) {
+    this.observerPerEventType(eventType).push(obs);
   }
 
   // similar to remove eventListener
-  unregisterObserver(obs: Observer) {
+  unregisterObserver(eventType: string, obs: Observer) {
     // loop through observers array and remove elem that's same as obs
-    _.remove(this.observers, el => el === obs);
+    _.remove(this.observerPerEventType(eventType), el => el === obs);
   }
 
-  notifyObservers(data: any) {
+  notifyObservers(eventType: string, data: any) {
     // loop through array and notify with data
-    this.observers.forEach(obs => obs.notify(data));
+    this.observerPerEventType(eventType).forEach(obs => obs.notify(data));
+  }
+
+  private observerPerEventType(eventType: string): Observer[] {
+    const observerPerType = this.observers[eventType];
+    if (!observerPerType) {
+      this.observers[eventType] = [];
+    }
+    return this.observers[eventType];
   }
 }
 
