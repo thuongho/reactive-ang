@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Lesson } from '../shared/model/lesson';
 import * as _ from 'lodash';
 import { lessonsList$, Observer } from '../event-bus-experiments/app-data';
@@ -9,15 +9,14 @@ import { lessonsList$, Observer } from '../event-bus-experiments/app-data';
   styleUrls: ['./lessons-list.component.scss']
 })
 // implements Observer to use notify
-export class LessonsListComponent implements Observer {
+export class LessonsListComponent implements Observer, OnInit {
 
   // problem lesson owns a copy of the lessons list
   lessons: Lesson[] = [];
 
-  // register in the constructor as register in oninit it will not get the data
-  constructor() {
-    console.log('lesson list component is registered as observer...')
-
+  // observable pattern is async, so can subscribe in oninit instead of constructor
+  ngOnInit() {
+    console.log('lesson list component is registered as observer...');
     lessonsList$.subscribe(this);
   }
 

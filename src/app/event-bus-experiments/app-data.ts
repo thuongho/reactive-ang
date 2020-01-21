@@ -2,6 +2,7 @@
 // yarn add lodash
 // yarn add @types/lodash - to get types
 import * as _ from 'lodash';
+import { Lesson } from '../shared/model/lesson';
 
 export const LESSONS_LIST_AVAILABLE = 'NEW_LIST_AVAILABLE';
 
@@ -41,3 +42,14 @@ class SubjectImplementation implements Subject {
 
 // $ is a stream of data or an observable
 export let lessonsList$: Observable;
+
+// initialize a single instance of lessons
+// this takes care of data encapsulation/ data ownership
+// other components now use this one instance of lessons
+let lessons: Lesson[] = [];
+
+// allow other components to update the one instance of lessons
+export function initializeLessonsList(newList: Lesson[]) {
+  // make a clone of the newList so that we don't reference another variable somewhere
+  lessons = _.cloneDeep(newList);
+}

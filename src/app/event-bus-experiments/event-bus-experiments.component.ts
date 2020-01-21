@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // use globalEventBus as a communication mechanism
-import { globalEventBus, ADD_NEW_LESSON, LESSONS_LIST_AVAILABLE } from './event-bus';
+import { initializeLessonsList } from './app-data';
 import { testLessons } from '../shared/model/test-lessons';
 import { Lesson } from '../shared/model/lesson';
 
@@ -9,32 +9,27 @@ import { Lesson } from '../shared/model/lesson';
   templateUrl: './event-bus-experiments.component.html',
   styleUrls: ['./event-bus-experiments.component.scss']
 })
+// top level component
 export class EventBusExperimentsComponent implements OnInit {
-
-  private lessons: Lesson[] = [];
 
   ngOnInit() {
     console.log('Top level component broadcasted all lessons...');
-    this.lessons = testLessons.slice(0);
-    // broadcast testLessons to any observer that needs testLessons
-    // EventBusExperimentsComponent doesn't have access to any other components
-    // it's only using the globalEventBus to distribute data
-    // make a copy of testLessons
-    globalEventBus.notifyObservers(LESSONS_LIST_AVAILABLE, this.lessons);
+    // simulate getting testLessons from the backend
+    initializeLessonsList(testLessons.slice(0));
 
     // simulated server push functionality
     setTimeout(() => {
-      this.lessons.push({
+      const newLesson = {
         id: Math.random(),
         description: 'New lesson arriving from the backend'
-      });
+      };
 
-      globalEventBus.notifyObservers(LESSONS_LIST_AVAILABLE, this.lessons);
+      // TODO
     }, 10000);
   }
 
   addLesson(lessonText: string) {
-    globalEventBus.notifyObservers(ADD_NEW_LESSON, lessonText);
+    // TODO
   }
 
 }
