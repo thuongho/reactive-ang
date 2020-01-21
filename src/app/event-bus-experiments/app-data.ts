@@ -93,6 +93,13 @@ class DataStore {
     this.lessons = _.cloneDeep(newList);
     this.lessonsListSubject.next(this.lessons);
   }
+
+  addLesson(newLesson: Lesson) {
+    // newLesson came from another part of the app
+    // deepClone to make sure DataStore is the new owner of the newLesson
+    this.lessons.push(_.cloneDeep(newLesson));
+    this.lessonsListSubject.next(this.lessons);
+  }
 }
 
 // make only variable store available to the whole app

@@ -24,12 +24,19 @@ export class EventBusExperimentsComponent implements OnInit {
         description: 'New lesson arriving from the backend'
       };
 
-      // TODO
+      // ADD NEW LESSON VIA BACKEND
+      store.addLesson(newLesson);
     }, 10000);
   }
 
   addLesson(lessonText: string) {
-    // TODO
+    // ADD NEW LESSON VIA BUTTON
+    const newLesson = {
+      id: Math.random(),
+      description: lessonText
+    };
+
+    store.addLesson(newLesson);
   }
 
 }
