@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Lesson } from '../shared/model/lesson';
-import { lessonsList$, Observer } from '../event-bus-experiments/app-data';
+import { Observer, store } from '../event-bus-experiments/app-data';
 
 @Component({
   selector: 'lessons-counter',
@@ -15,7 +15,7 @@ export class LessonsCounterComponent implements Observer {
     console.log('lesson list component is registered as observer...');
 
     // change this component to an Observer and subscribe this component to lessonsList
-    lessonsList$.subscribe(this);
+    store.lessonsList$.subscribe(this);
   }
 
   next(data: Lesson[]) {

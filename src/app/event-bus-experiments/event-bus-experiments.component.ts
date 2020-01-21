@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // use globalEventBus as a communication mechanism
-import { initializeLessonsList } from './app-data';
+import { store } from './app-data';
 import { testLessons } from '../shared/model/test-lessons';
 import { Lesson } from '../shared/model/lesson';
 
@@ -15,7 +15,7 @@ export class EventBusExperimentsComponent implements OnInit {
   ngOnInit() {
     console.log('Top level component broadcasted all lessons...');
     // simulate getting testLessons from the backend
-    initializeLessonsList(testLessons.slice(0));
+    store.initializeLessonsList(testLessons.slice(0));
 
     // simulated server push functionality
     setTimeout(() => {

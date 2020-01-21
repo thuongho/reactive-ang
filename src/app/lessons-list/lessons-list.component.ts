@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Lesson } from '../shared/model/lesson';
 import * as _ from 'lodash';
-import { lessonsList$, Observer } from '../event-bus-experiments/app-data';
+import { Observer, store } from '../event-bus-experiments/app-data';
 
 @Component({
   selector: 'lessons-list',
@@ -17,7 +17,7 @@ export class LessonsListComponent implements Observer, OnInit {
   // observable pattern is async, so can subscribe in oninit instead of constructor
   ngOnInit() {
     console.log('lesson list component is registered as observer...');
-    lessonsList$.subscribe(this);
+    store.lessonsList$.subscribe(this);
   }
 
   next(data: Lesson[]) {
