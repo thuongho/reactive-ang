@@ -73,6 +73,7 @@ class SubjectImplementation implements Subject {
 //   lessonsListSubject.next(lessons);
 // }
 
+// Store Pattern
 class DataStore {
   // central data
   private lessons: Lesson[] = [];
@@ -91,14 +92,38 @@ class DataStore {
 
   initializeLessonsList(newList: Lesson[]) {
     this.lessons = _.cloneDeep(newList);
-    this.lessonsListSubject.next(this.lessons);
+    // // this will give components the ability to mutilate this.lessons
+    // this.lessonsListSubject.next(this.lessons);
+    // use broadcast instead as it will broadcast a clone that can't mutate the lessons directly
+    this.broadcast();
   }
 
   addLesson(newLesson: Lesson) {
     // newLesson came from another part of the app
     // deepClone to make sure DataStore is the new owner of the newLesson
     this.lessons.push(_.cloneDeep(newLesson));
-    this.lessonsListSubject.next(this.lessons);
+    this.broadcast();
+  }
+
+  deleteLesson(deleted: Lesson) {
+    _.remove(this.lessons,
+      lesson => lesson.id === deleted.id);
+    this.broadcast();
+  }
+
+  toggleLessonViewed(toggled: Lesson) {
+    // find the lesson
+    const lesson = _.find(this.lessons, item => item.id === toggled.id);
+
+    // mutate lessons directly, but it is ok as DataStore is the owner of lessons
+    lesson.completed = !lesson.completed;
+    this.broadcast();
+  }
+
+  broadcast() {
+    // update subjects with a clone of the lessons
+    // broadcast a clone of the store so that component can't mutate it
+    this.lessonsListSubject.next(_.cloneDeep(this.lessons));
   }
 }
 

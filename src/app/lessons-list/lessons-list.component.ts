@@ -11,7 +11,8 @@ import { Observer, store } from '../event-bus-experiments/app-data';
 // implements Observer to use notify
 export class LessonsListComponent implements Observer, OnInit {
 
-  // problem lesson owns a copy of the lessons list
+  // // problem lesson owns a copy of the lessons list
+  // this local copy is ok as it is a copy for the dom
   lessons: Lesson[] = [];
 
   // observable pattern is async, so can subscribe in oninit instead of constructor
@@ -23,18 +24,17 @@ export class LessonsListComponent implements Observer, OnInit {
   next(data: Lesson[]) {
     console.log('LessonsListComponent received lessons data');
     // shallow copy of the data
-    this.lessons = data.slice(0);
+    this.lessons = data;
   }
 
   // this method updates the copy of the lesson and not the observable list
   toggleLessonViewed(lesson: Lesson) {
     console.log('toggling lesson...');
-    lesson.completed = !lesson.completed;
+    store.toggleLessonViewed(lesson);
   }
 
   delete(deleted: Lesson) {
-    _.remove(this.lessons,
-      lesson => lesson.id === deleted.id);
+    store.deleteLesson(deleted);
   }
 
 }
