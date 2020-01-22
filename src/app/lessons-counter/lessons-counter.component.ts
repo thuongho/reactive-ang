@@ -15,7 +15,8 @@ export class LessonsCounterComponent implements Observer {
     console.log('lesson list component is registered as observer...');
 
     // change this component to an Observer and subscribe this component to lessonsList
-    store.lessonsList$.subscribe(this);
+    // store.lessonsList$.subscribe(this);
+    store.subscribe(this);
   }
 
   next(data: Lesson[]) {
