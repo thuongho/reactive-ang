@@ -16,6 +16,7 @@ export class EventBusExperimentsComponent implements OnInit {
     console.log('Top level component broadcasted all lessons...');
     // simulate getting testLessons from the backend
     store.initializeLessonsList(testLessons.slice(0));
+    console.log('testLessons', testLessons);
 
     // simulated server push functionality
     setTimeout(() => {

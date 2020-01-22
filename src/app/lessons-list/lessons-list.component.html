@@ -1,6 +1,7 @@
 <table class="table lessons-list card card-strong">
   <!-- *ngIf="lessons; else  loadingLessons;"> -->
   <tbody>
+    <pre>{{ lessons | json }}</pre>
     <tr *ngFor="let lesson of lessons" >
       <td class="viewed">
         <input [checked]="lesson.completed" type="checkbox" (click)="toggleLessonViewed(lesson)" />
